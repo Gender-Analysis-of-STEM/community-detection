@@ -1,0 +1,617 @@
+<head>
+    <meta charset="utf-8"/>
+    <title>twitter explorer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.js"></script>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://unpkg.com/force-graph"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script> 
+    $(document).ready(function(){
+      $("#panel00").click(function(){
+        $("#content00").slideToggle(300);
+              });
+    });
+    $(document).ready(function(){
+      $("#panel01").click(function(){
+        $("#content01").slideToggle(300);
+      });
+    });
+    $(document).ready(function(){
+      $("#panel02").click(function(){
+        $("#content02").slideToggle(300);
+      });
+    });
+    $(document).ready(function(){
+      $("#panel03").click(function(){
+        $("#content03").slideToggle(300);
+      });
+    });
+    $(document).ready(function(){
+      $("#panel04").click(function(){
+        $("#content04").slideToggle(300);
+      });
+    });
+    $(document).ready(function(){
+      $("#panel05").click(function(){
+        $("#content05").slideToggle(300);
+      });
+    });
+
+    $( function() {
+        $( "#totalborder" ).draggable();
+        } );
+    </script>
+<style>
+.switch {
+    position: relative;
+    width: 60px;
+    }
+/* Hide default HTML checkbox */
+    .onoffswitch {
+        position: relative;         
+        margin: 10px;
+        /*margin-left:270px;*/
+        width: 40px;
+        -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+    }
+    .onoffswitch-checkbox {
+        display: none;
+    }
+    .onoffswitch-label {
+        display: block; overflow: hidden; cursor: pointer;
+        height: 15px; padding: 0; line-height: 15px;
+        border: 2px solid #999999; border-radius: 15px;
+        background-color: #EEEEEE;
+        transition: background-color 0.3s ease-in;
+    }
+    .onoffswitch-label:before {
+        content: "";
+        display: block; width: 15px; margin: 0px;
+        background: #FFFFFF;
+        position: absolute; top: 0; bottom: 0;
+        right: 23px;
+        border: 2px solid #999999; border-radius: 15px;
+        transition: all 0.3s ease-in 0s; 
+    }
+    .onoffswitch-checkbox:checked + .onoffswitch-label {
+        background-color: #fff;
+    }
+    .onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+       border-color: #999999;
+    }
+    .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+        right: 0px; 
+    }
+    html.transition,
+    html.transition *,
+    html.transition *:before,
+    html.transition *:after {
+      transition: ease-in-out 200ms !important;
+      transition-delay: 0 !important;
+    }
+      html {
+          background: var(--backg);
+                    --backg: #fff;
+                    --color_text: #000;
+                    --color_title_text: #fff;
+                    --color_title_backg: #000;
+                    --backg_buttons: rgba(0,0,0,0.15);}
+      html[data-theme='darktheme'] {
+          background: var(--backg);
+          --backg: #000;
+          --color_text: #fff;
+          --color_title_text: #000;
+          --color_title_backg: #fff;
+          --backg_buttons: rgba(255,255,255,0.25)
+            }
+      body {margin: 0; 
+            font-family: "Inter",-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+            font-size: 12pt;
+            background-color: var(--backg);
+            color: var(--color_text)}
+
+        #totalborder {
+        border: 1px;
+        margin: 25px;
+        width: 325px;
+        border-style: solid;
+        padding-left: 0px;
+        position: relative;
+        float: left;
+        z-index: 10;
+        background-color: var(--backg)
+        }
+
+        #totalborder:hover {
+          cursor: move
+        }
+        
+        #panel00{
+          text-decoration: underline;
+          text-transform: uppercase;
+        }
+
+        .borders {
+          border: solid 1px;
+          margin: 10px;
+          width: 300px;
+        }
+        .borders_small {
+          border: solid 1px;
+          margin: 0px;
+          width: 270px;
+          margin-top: 10px
+        }
+
+        #title {
+        padding: 10px;
+        width: 300px;
+        color: var(--color_title_text);
+        font-size: 20pt;
+        font-weight: bold;
+        }
+
+        #titleborder {
+        background-color: var(--color_title_backg)
+        }
+
+        .content {
+          display: none;
+          padding: 10px;
+        }
+
+        .subtitle {
+          padding: 10px;
+        }
+        .subsubtitle {
+          padding: 5px;
+          font-size: 11pt;
+        }
+
+        .subtitle:hover{
+          background-color: var(--backg_buttons);
+          cursor: pointer;
+        }
+        .subsubtitle:hover{
+          background-color: var(--backg_buttons);
+          cursor: pointer;
+        }
+
+        #footer{
+          font-size: 8pt;
+          padding-left: 10px;
+          padding-bottom: 5px;
+          color:grey;
+        }
+
+        a{
+          color:var(--text-color);
+        }
+        #infodiv{
+            padding-left: 20px;
+            position: relative;
+            float: left;
+            z-index: 10;
+        }
+        iframe.infodiv{
+                padding-left:0px;
+
+        }
+        @media(max-width:1000px){
+            #infodiv{
+                padding-left:0px;
+            }
+            #stripecontainer{
+              padding-left:0;
+            }
+        }
+        /* ---------------------------- */  
+        /* ---------- Selector ---------- */
+        #mainselection select {
+           border: 1;
+           border-width: 1px;
+           /*border-color: black;*/
+           border-radius: 4px;
+           background: transparent;
+           font-size: 11pt;
+           color: var(--text_color);
+           padding: 2px 5px;
+           width: 270px;
+           -webkit-appearance: none;
+        }
+        #mainselection {
+           /*overflow:hidden;*/
+           width:240px;
+           border: 1;
+           /*background: #58B14C no-repeat scroll 150px center;*/
+        }
+        /* ---------------------------- */  
+        /* ---------- Button ---------- */
+        .button1 {
+            background-color:transparent;
+            border-radius:4px;
+            margin-top: 10px;
+            border:1px solid;
+            display:inline-block;
+            cursor:pointer;
+            color:var(--color_text);
+            width: 119px;
+            font-size:10pt;
+            padding:5px 5px;
+            /*padding:6px 36px;*/
+            text-decoration:none;
+            margin-right: 5px
+          }
+          .button1:hover {
+            background-color: var(--backg_buttons);
+          }
+          .button1:active {
+            position:relative;
+            top:1px;
+          }
+        /* ---------------------------- */  
+        /* ---------- Checkbox ---------- */
+        .checkbox {
+            display: inline-flex;
+            cursor: pointer;
+            position: relative;
+        }
+        .checkbox > span {
+            padding: 0.3rem 0.5rem;
+            font-size: 12pt
+        }
+        .checkbox > input {
+            height: 25px;
+            width: 25px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            -o-appearance: none;
+            appearance: none;
+            border: 1px solid;
+            border-radius: 4px;
+            outline: none;
+            transition-duration: 0.3s;
+            background-color: transparent;
+            cursor: pointer;
+            margin-left: 1px
+          }
+        .checkbox > input:checked {
+            border: 1px solid;
+        }
+        .checkbox > input:checked + span::before {
+            content: '\2713';
+            display: block;
+            text-align: center;
+            color: var(--color_text);
+            position: absolute;
+            left: 0.3rem;
+            top: 0.2rem;
+            font-size: 14pt
+
+        }
+        .checkbox > input:active {
+            border: 2px solid #34495E;
+        }
+        .description{
+            font-size:9pt;
+            margin-top: 0px
+        }
+        .element{
+          margin-bottom: 10px
+        }
+        #twittertimeline{
+          margin-top: 0px
+        }
+        /* ---------------------------- */  
+        /* ---------- Search Box ---------- */
+        input[type=search] {
+            border-radius: 4px;
+            font-size: 12pt;
+            width: 272px;
+            background-color: transparent;
+            color: var(--color_text);
+        }
+        /* ---------------------------- */
+        ul{
+            padding-left:15px;
+            list-style-type:circle; 
+            font-size: 11pt; 
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        #slido{width: 270px;}
+        #slido_links{width: 270px;}        
+        #scale{margin-top: 20px}
+        #user_tweets{
+          overflow-y: scroll;
+          scrollbar-width: none; /* Firefox */
+          -ms-overflow-style: none;  /* Internet Explorer 10+ */          
+          height: 300px;
+        }
+        #user_tweets::-webkit-scrollbar { /* WebKit */
+        width: 0;
+        height: 0;
+        }
+</style>
+</head>
+<body>
+<div id="totalborder">
+<div class="onoffswitch">
+    <input type="checkbox" name="mode" class="onoffswitch-checkbox" id="myonoffswitch">
+    <label class="onoffswitch-label" for="myonoffswitch"></label>
+</div>
+<div class="borders" id="titleborder">
+<div id="title">twitter explorer <span style="font-size:8pt;">BETA</span></div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel00"></div>
+<div class = "content" id="content00">
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel01">VISUALIZATION OPTIONS</div>
+<div class = "content" id="content01">
+    <div id="mainselection" class="element">
+        <div class="description">Auto-color nodes by</div>
+            <select id = "nodecolor">
+                <option value = "none" style="font-weight: bold"></option>
+                <option value = "id">Community</option>
+            </select>
+        <br> <br>
+        <div class="description">Node size (variable scale)</div>
+            <select id = "nodesize">
+                <option value = "none">None</option>
+                <option value = "N">Number of nodes in community</option>
+                <option value = "in_degree">Cum. In-Degree (number of times the users got retweeted)</option>
+                <option value = "out_degree">Cum. Out-Degree (number of times the users retweeted someone)</option>
+                <option value = "followers">Cum. Number of followers</option>
+                <option value = "friends">Cum. Number of followed accounts</option>
+            </select>
+        </div>
+        <div class="description" id="scale">Node size scale</div>
+        <div class="slidecontainer">
+          <input type="range" min="1" max="100" value="0" id="slido">
+        </div>
+        <div class="description" id="scale">Link particle size scale</div>
+        <div class="slidecontainer">
+          <input type="range" min="0.01" max="10" value="1" id="slido_links">
+        </div>                        
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel02">NETWORK MEASURES</div>
+<div class = "content" id="content02">
+</div>
+</div>
+<div class="borders">
+<div class= "subtitle" id="panel03">COMMUNITY INFORMATION</div>
+<div class = "content" id="content03">
+    <div class="description"> Search community</div>
+    <input id="searchuser" type="search"/>
+        <br>
+        <a href="javascript:void(0);" onclick="zoomonuser()" class="button1">Zoom on node</a>
+        <a href="javascript:void(0);" onclick="flashcolor()" class="button1">Flash color</a><br>
+    <br><br>
+    <div id="userinfostring"></div>
+</div>
+
+</div>
+<div id="footer"><a href="https://twitterexplorer.org">twitter explorer v0.3.1</a></div></div>
+</div>
+
+<div id="graph" style="width:100%;height: 100%;position: absolute;"></div>
+
+    <script type="text/javascript">
+        var data = {'nodes': [{'id': 0, 'name': 'Community 1', 'followers': 292414, 'friends': 55240, 'N': 49, 'in_degree': 1, 'out_degree': 1}, {'id': 1, 'name': 'Community 2', 'followers': 674425, 'friends': 36621, 'N': 43, 'in_degree': 2, 'out_degree': 6}, {'id': 2, 'name': 'Community 3', 'followers': 531327, 'friends': 11867, 'N': 15, 'in_degree': 2, 'out_degree': 3}, {'id': 3, 'name': 'Community 4', 'followers': 21801, 'friends': 8890, 'N': 13, 'in_degree': 2, 'out_degree': 0}, {'id': 4, 'name': 'Community 5', 'followers': 40998, 'friends': 7222, 'N': 13, 'in_degree': 2, 'out_degree': 3}, {'id': 5, 'name': 'Community 6', 'followers': 64178, 'friends': 12360, 'N': 13, 'in_degree': 2, 'out_degree': 1}, {'id': 6, 'name': 'Community 7', 'followers': 7091, 'friends': 10008, 'N': 11, 'in_degree': 0, 'out_degree': 1}, {'id': 7, 'name': 'Community 8', 'followers': 57778, 'friends': 13923, 'N': 10, 'in_degree': 2, 'out_degree': 1}, {'id': 8, 'name': 'Community 9', 'followers': 620442, 'friends': 7577, 'N': 8, 'in_degree': 0, 'out_degree': 0}, {'id': 9, 'name': 'Community 10', 'followers': 28293, 'friends': 5287, 'N': 7, 'in_degree': 0, 'out_degree': 0}, {'id': 10, 'name': 'Community 11', 'followers': 48336, 'friends': 6450, 'N': 6, 'in_degree': 2, 'out_degree': 0}, {'id': 11, 'name': 'Community 12', 'followers': 1949, 'friends': 1504, 'N': 6, 'in_degree': 0, 'out_degree': 0}, {'id': 12, 'name': 'Community 13', 'followers': 4962, 'friends': 2955, 'N': 5, 'in_degree': 0, 'out_degree': 0}, {'id': 13, 'name': 'Community 14', 'followers': 7445, 'friends': 7347, 'N': 5, 'in_degree': 0, 'out_degree': 0}, {'id': 14, 'name': 'Community 15', 'followers': 1269, 'friends': 1114, 'N': 5, 'in_degree': 0, 'out_degree': 0}, {'id': 15, 'name': 'Community 16', 'followers': 49050, 'friends': 7861, 'N': 5, 'in_degree': 0, 'out_degree': 0}, {'id': 16, 'name': 'Community 17', 'followers': 3337, 'friends': 1812, 'N': 5, 'in_degree': 0, 'out_degree': 0}, {'id': 17, 'name': 'Community 18', 'followers': 2677, 'friends': 3087, 'N': 5, 'in_degree': 0, 'out_degree': 0}, {'id': 18, 'name': 'Community 19', 'followers': 3184, 'friends': 6329, 'N': 5, 'in_degree': 0, 'out_degree': 0}, {'id': 19, 'name': 'Community 20', 'followers': 4936, 'friends': 2418, 'N': 5, 'in_degree': 0, 'out_degree': 0}, {'id': 20, 'name': 'Community 21', 'followers': 10274, 'friends': 6175, 'N': 4, 'in_degree': 0, 'out_degree': 0}, {'id': 21, 'name': 'Community 22', 'followers': 10622, 'friends': 2294, 'N': 4, 'in_degree': 0, 'out_degree': 0}, {'id': 22, 'name': 'Community 23', 'followers': 6160, 'friends': 3179, 'N': 4, 'in_degree': 0, 'out_degree': 0}, {'id': 23, 'name': 'Community 24', 'followers': 2768, 'friends': 1693, 'N': 4, 'in_degree': 0, 'out_degree': 0}, {'id': 24, 'name': 'Community 25', 'followers': 1361, 'friends': 1415, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 25, 'name': 'Community 26', 'followers': 1052, 'friends': 661, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 26, 'name': 'Community 27', 'followers': 4383, 'friends': 1372, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 27, 'name': 'Community 28', 'followers': 156, 'friends': 370, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 28, 'name': 'Community 29', 'followers': 1360, 'friends': 845, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 29, 'name': 'Community 30', 'followers': 768, 'friends': 838, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 30, 'name': 'Community 31', 'followers': 2256, 'friends': 1258, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 31, 'name': 'Community 32', 'followers': 612, 'friends': 396, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 32, 'name': 'Community 33', 'followers': 10020, 'friends': 776, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 33, 'name': 'Community 34', 'followers': 189523, 'friends': 13691, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 34, 'name': 'Community 35', 'followers': 1738, 'friends': 2032, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 35, 'name': 'Community 36', 'followers': 2502, 'friends': 1757, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 36, 'name': 'Community 37', 'followers': 2182, 'friends': 1079, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 37, 'name': 'Community 38', 'followers': 7189, 'friends': 7921, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 38, 'name': 'Community 39', 'followers': 1306, 'friends': 882, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 39, 'name': 'Community 40', 'followers': 3547, 'friends': 1651, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 40, 'name': 'Community 41', 'followers': 1750, 'friends': 1219, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 41, 'name': 'Community 42', 'followers': 1060, 'friends': 1194, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 42, 'name': 'Community 43', 'followers': 307, 'friends': 246, 'N': 3, 'in_degree': 0, 'out_degree': 0}, {'id': 43, 'name': 'Community 44', 'followers': 14245, 'friends': 10351, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 44, 'name': 'Community 45', 'followers': 3073, 'friends': 1879, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 45, 'name': 'Community 46', 'followers': 277, 'friends': 130, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 46, 'name': 'Community 47', 'followers': 834, 'friends': 838, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 47, 'name': 'Community 48', 'followers': 622, 'friends': 481, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 48, 'name': 'Community 49', 'followers': 620, 'friends': 508, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 49, 'name': 'Community 50', 'followers': 1041, 'friends': 773, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 50, 'name': 'Community 51', 'followers': 2242, 'friends': 1304, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 51, 'name': 'Community 52', 'followers': 807, 'friends': 291, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 52, 'name': 'Community 53', 'followers': 638, 'friends': 908, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 53, 'name': 'Community 54', 'followers': 1515, 'friends': 760, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 54, 'name': 'Community 55', 'followers': 304, 'friends': 374, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 55, 'name': 'Community 56', 'followers': 137, 'friends': 325, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 56, 'name': 'Community 57', 'followers': 164, 'friends': 245, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 57, 'name': 'Community 58', 'followers': 77762, 'friends': 4432, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 58, 'name': 'Community 59', 'followers': 21, 'friends': 303, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 59, 'name': 'Community 60', 'followers': 147, 'friends': 501, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 60, 'name': 'Community 61', 'followers': 90, 'friends': 147, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 61, 'name': 'Community 62', 'followers': 47, 'friends': 67, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 62, 'name': 'Community 63', 'followers': 1445, 'friends': 698, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 63, 'name': 'Community 64', 'followers': 368, 'friends': 1219, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 64, 'name': 'Community 65', 'followers': 1136, 'friends': 1398, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 65, 'name': 'Community 66', 'followers': 1241, 'friends': 1255, 'N': 2, 'in_degree': 1, 'out_degree': 0}, {'id': 66, 'name': 'Community 67', 'followers': 1077, 'friends': 1147, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 67, 'name': 'Community 68', 'followers': 366, 'friends': 266, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 68, 'name': 'Community 69', 'followers': 780, 'friends': 433, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 69, 'name': 'Community 70', 'followers': 4752, 'friends': 1930, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 70, 'name': 'Community 71', 'followers': 792, 'friends': 577, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 71, 'name': 'Community 72', 'followers': 828, 'friends': 709, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 72, 'name': 'Community 73', 'followers': 832, 'friends': 763, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 73, 'name': 'Community 74', 'followers': 13, 'friends': 62, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 74, 'name': 'Community 75', 'followers': 86, 'friends': 267, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 75, 'name': 'Community 76', 'followers': 12075, 'friends': 1763, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 76, 'name': 'Community 77', 'followers': 1275, 'friends': 412, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 77, 'name': 'Community 78', 'followers': 1663, 'friends': 1666, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 78, 'name': 'Community 79', 'followers': 881, 'friends': 642, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 79, 'name': 'Community 80', 'followers': 666, 'friends': 801, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 80, 'name': 'Community 81', 'followers': 658, 'friends': 792, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 81, 'name': 'Community 82', 'followers': 1621, 'friends': 944, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 82, 'name': 'Community 83', 'followers': 408, 'friends': 298, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 83, 'name': 'Community 84', 'followers': 5078, 'friends': 900, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 84, 'name': 'Community 85', 'followers': 242, 'friends': 215, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 85, 'name': 'Community 86', 'followers': 1591, 'friends': 69, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 86, 'name': 'Community 87', 'followers': 344, 'friends': 308, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 87, 'name': 'Community 88', 'followers': 208, 'friends': 245, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 88, 'name': 'Community 89', 'followers': 592, 'friends': 1630, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 89, 'name': 'Community 90', 'followers': 775, 'friends': 2680, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 90, 'name': 'Community 91', 'followers': 927, 'friends': 875, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 91, 'name': 'Community 92', 'followers': 513, 'friends': 481, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 92, 'name': 'Community 93', 'followers': 304, 'friends': 310, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 93, 'name': 'Community 94', 'followers': 426, 'friends': 383, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 94, 'name': 'Community 95', 'followers': 798, 'friends': 1802, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 95, 'name': 'Community 96', 'followers': 1393, 'friends': 914, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 96, 'name': 'Community 97', 'followers': 2783, 'friends': 896, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 97, 'name': 'Community 98', 'followers': 2036, 'friends': 2122, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 98, 'name': 'Community 99', 'followers': 26906, 'friends': 2061, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 99, 'name': 'Community 100', 'followers': 1372, 'friends': 1242, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 100, 'name': 'Community 101', 'followers': 13897, 'friends': 13091, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 101, 'name': 'Community 102', 'followers': 265, 'friends': 696, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 102, 'name': 'Community 103', 'followers': 300, 'friends': 252, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 103, 'name': 'Community 104', 'followers': 118, 'friends': 207, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 104, 'name': 'Community 105', 'followers': 687, 'friends': 2040, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 105, 'name': 'Community 106', 'followers': 690, 'friends': 365, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 106, 'name': 'Community 107', 'followers': 268, 'friends': 428, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 107, 'name': 'Community 108', 'followers': 4004, 'friends': 1245, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 108, 'name': 'Community 109', 'followers': 261, 'friends': 74, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 109, 'name': 'Community 110', 'followers': 245, 'friends': 224, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 110, 'name': 'Community 111', 'followers': 150, 'friends': 219, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 111, 'name': 'Community 112', 'followers': 162, 'friends': 140, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 112, 'name': 'Community 113', 'followers': 1084, 'friends': 441, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 113, 'name': 'Community 114', 'followers': 1748, 'friends': 846, 'N': 2, 'in_degree': 0, 'out_degree': 0}, {'id': 114, 'name': 'Community 115', 'followers': 698, 'friends': 414, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 115, 'name': 'Community 116', 'followers': 149, 'friends': 190, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 116, 'name': 'Community 117', 'followers': 2662, 'friends': 1700, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 117, 'name': 'Community 118', 'followers': 3524, 'friends': 2380, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 118, 'name': 'Community 119', 'followers': 812, 'friends': 374, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 119, 'name': 'Community 120', 'followers': 1172, 'friends': 941, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 120, 'name': 'Community 121', 'followers': 629, 'friends': 968, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 121, 'name': 'Community 122', 'followers': 250, 'friends': 170, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 122, 'name': 'Community 123', 'followers': 243, 'friends': 1319, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 123, 'name': 'Community 124', 'followers': 182, 'friends': 199, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 124, 'name': 'Community 125', 'followers': 284, 'friends': 386, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 125, 'name': 'Community 126', 'followers': 26, 'friends': 314, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 126, 'name': 'Community 127', 'followers': 67, 'friends': 474, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 127, 'name': 'Community 128', 'followers': 4319, 'friends': 403, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 128, 'name': 'Community 129', 'followers': 85, 'friends': 116, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 129, 'name': 'Community 130', 'followers': 102, 'friends': 565, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 130, 'name': 'Community 131', 'followers': 795, 'friends': 596, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 131, 'name': 'Community 132', 'followers': 796, 'friends': 452, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 132, 'name': 'Community 133', 'followers': 98613, 'friends': 2741, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 133, 'name': 'Community 134', 'followers': 186, 'friends': 165, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 134, 'name': 'Community 135', 'followers': 1106, 'friends': 1008, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 135, 'name': 'Community 136', 'followers': 1047, 'friends': 640, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 136, 'name': 'Community 137', 'followers': 1871, 'friends': 1309, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 137, 'name': 'Community 138', 'followers': 528, 'friends': 319, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 138, 'name': 'Community 139', 'followers': 1464, 'friends': 2422, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 139, 'name': 'Community 140', 'followers': 597, 'friends': 352, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 140, 'name': 'Community 141', 'followers': 7888, 'friends': 7309, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 141, 'name': 'Community 142', 'followers': 1353, 'friends': 1837, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 142, 'name': 'Community 143', 'followers': 2658, 'friends': 434, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 143, 'name': 'Community 144', 'followers': 3774, 'friends': 3125, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 144, 'name': 'Community 145', 'followers': 171, 'friends': 570, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 145, 'name': 'Community 146', 'followers': 439, 'friends': 278, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 146, 'name': 'Community 147', 'followers': 476, 'friends': 416, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 147, 'name': 'Community 148', 'followers': 1142, 'friends': 486, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 148, 'name': 'Community 149', 'followers': 1599, 'friends': 758, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 149, 'name': 'Community 150', 'followers': 1115, 'friends': 957, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 150, 'name': 'Community 151', 'followers': 596, 'friends': 679, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 151, 'name': 'Community 152', 'followers': 185, 'friends': 307, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 152, 'name': 'Community 153', 'followers': 1886, 'friends': 687, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 153, 'name': 'Community 154', 'followers': 2078, 'friends': 754, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 154, 'name': 'Community 155', 'followers': 46, 'friends': 138, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 155, 'name': 'Community 156', 'followers': 90040, 'friends': 533, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 156, 'name': 'Community 157', 'followers': 639, 'friends': 701, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 157, 'name': 'Community 158', 'followers': 6192, 'friends': 524, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 158, 'name': 'Community 159', 'followers': 84, 'friends': 133, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 159, 'name': 'Community 160', 'followers': 577, 'friends': 593, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 160, 'name': 'Community 161', 'followers': 970, 'friends': 325, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 161, 'name': 'Community 162', 'followers': 1153, 'friends': 1440, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 162, 'name': 'Community 163', 'followers': 1124, 'friends': 357, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 163, 'name': 'Community 164', 'followers': 1070, 'friends': 819, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 164, 'name': 'Community 165', 'followers': 826, 'friends': 395, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 165, 'name': 'Community 166', 'followers': 3337, 'friends': 1728, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 166, 'name': 'Community 167', 'followers': 1656, 'friends': 1402, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 167, 'name': 'Community 168', 'followers': 536, 'friends': 299, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 168, 'name': 'Community 169', 'followers': 174, 'friends': 305, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 169, 'name': 'Community 170', 'followers': 200, 'friends': 1360, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 170, 'name': 'Community 171', 'followers': 407, 'friends': 703, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 171, 'name': 'Community 172', 'followers': 658, 'friends': 255, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 172, 'name': 'Community 173', 'followers': 282, 'friends': 809, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 173, 'name': 'Community 174', 'followers': 272, 'friends': 724, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 174, 'name': 'Community 175', 'followers': 115, 'friends': 480, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 175, 'name': 'Community 176', 'followers': 326, 'friends': 90, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 176, 'name': 'Community 177', 'followers': 8585, 'friends': 298, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 177, 'name': 'Community 178', 'followers': 1328, 'friends': 2638, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 178, 'name': 'Community 179', 'followers': 26, 'friends': 18, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 179, 'name': 'Community 180', 'followers': 189, 'friends': 173, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 180, 'name': 'Community 181', 'followers': 73655, 'friends': 405, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 181, 'name': 'Community 182', 'followers': 122, 'friends': 145, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 182, 'name': 'Community 183', 'followers': 1005, 'friends': 270, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 183, 'name': 'Community 184', 'followers': 297, 'friends': 180, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 184, 'name': 'Community 185', 'followers': 552, 'friends': 205, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 185, 'name': 'Community 186', 'followers': 67, 'friends': 209, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 186, 'name': 'Community 187', 'followers': 265, 'friends': 128, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 187, 'name': 'Community 188', 'followers': 1670, 'friends': 811, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 188, 'name': 'Community 189', 'followers': 162, 'friends': 490, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 189, 'name': 'Community 190', 'followers': 773, 'friends': 622, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 190, 'name': 'Community 191', 'followers': 258, 'friends': 457, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 191, 'name': 'Community 192', 'followers': 213, 'friends': 376, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 192, 'name': 'Community 193', 'followers': 24, 'friends': 158, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 193, 'name': 'Community 194', 'followers': 1156, 'friends': 2739, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 194, 'name': 'Community 195', 'followers': 593, 'friends': 349, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 195, 'name': 'Community 196', 'followers': 506, 'friends': 302, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 196, 'name': 'Community 197', 'followers': 199, 'friends': 339, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 197, 'name': 'Community 198', 'followers': 297, 'friends': 101, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 198, 'name': 'Community 199', 'followers': 1086, 'friends': 693, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 199, 'name': 'Community 200', 'followers': 19471, 'friends': 4037, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 200, 'name': 'Community 201', 'followers': 5119, 'friends': 53, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 201, 'name': 'Community 202', 'followers': 97, 'friends': 1314, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 202, 'name': 'Community 203', 'followers': 504, 'friends': 298, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 203, 'name': 'Community 204', 'followers': 401, 'friends': 342, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 204, 'name': 'Community 205', 'followers': 949, 'friends': 4996, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 205, 'name': 'Community 206', 'followers': 42, 'friends': 85, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 206, 'name': 'Community 207', 'followers': 16446, 'friends': 1171, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 207, 'name': 'Community 208', 'followers': 6630, 'friends': 1777, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 208, 'name': 'Community 209', 'followers': 482, 'friends': 859, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 209, 'name': 'Community 210', 'followers': 79, 'friends': 163, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 210, 'name': 'Community 211', 'followers': 726, 'friends': 690, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 211, 'name': 'Community 212', 'followers': 0, 'friends': 0, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 212, 'name': 'Community 213', 'followers': 4348, 'friends': 3182, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 213, 'name': 'Community 214', 'followers': 3446, 'friends': 1067, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 214, 'name': 'Community 215', 'followers': 5916, 'friends': 3213, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 215, 'name': 'Community 216', 'followers': 384, 'friends': 574, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 216, 'name': 'Community 217', 'followers': 41, 'friends': 165, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 217, 'name': 'Community 218', 'followers': 12701, 'friends': 13843, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 218, 'name': 'Community 219', 'followers': 247, 'friends': 928, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 219, 'name': 'Community 220', 'followers': 630, 'friends': 505, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 220, 'name': 'Community 221', 'followers': 3162, 'friends': 912, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 221, 'name': 'Community 222', 'followers': 1077, 'friends': 636, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 222, 'name': 'Community 223', 'followers': 6262, 'friends': 6888, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 223, 'name': 'Community 224', 'followers': 5286, 'friends': 3188, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 224, 'name': 'Community 225', 'followers': 3310, 'friends': 1021, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 225, 'name': 'Community 226', 'followers': 932, 'friends': 755, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 226, 'name': 'Community 227', 'followers': 944, 'friends': 477, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 227, 'name': 'Community 228', 'followers': 153, 'friends': 226, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 228, 'name': 'Community 229', 'followers': 787, 'friends': 788, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 229, 'name': 'Community 230', 'followers': 952, 'friends': 5002, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 230, 'name': 'Community 231', 'followers': 65, 'friends': 181, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 231, 'name': 'Community 232', 'followers': 60009, 'friends': 410, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 232, 'name': 'Community 233', 'followers': 114, 'friends': 259, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 233, 'name': 'Community 234', 'followers': 152, 'friends': 223, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 234, 'name': 'Community 235', 'followers': 13898, 'friends': 898, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 235, 'name': 'Community 236', 'followers': 2022, 'friends': 2066, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 236, 'name': 'Community 237', 'followers': 984, 'friends': 746, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 237, 'name': 'Community 238', 'followers': 305, 'friends': 338, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 238, 'name': 'Community 239', 'followers': 2659, 'friends': 1623, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 239, 'name': 'Community 240', 'followers': 97398, 'friends': 13, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 240, 'name': 'Community 241', 'followers': 1002, 'friends': 807, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 241, 'name': 'Community 242', 'followers': 139, 'friends': 189, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 242, 'name': 'Community 243', 'followers': 757, 'friends': 207, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 243, 'name': 'Community 244', 'followers': 286, 'friends': 410, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 244, 'name': 'Community 245', 'followers': 5593, 'friends': 2301, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 245, 'name': 'Community 246', 'followers': 1286, 'friends': 3605, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 246, 'name': 'Community 247', 'followers': 150, 'friends': 152, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 247, 'name': 'Community 248', 'followers': 698, 'friends': 631, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 248, 'name': 'Community 249', 'followers': 4256, 'friends': 55, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 249, 'name': 'Community 250', 'followers': 446, 'friends': 739, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 250, 'name': 'Community 251', 'followers': 3294, 'friends': 1546, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 251, 'name': 'Community 252', 'followers': 648, 'friends': 1141, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 252, 'name': 'Community 253', 'followers': 699, 'friends': 713, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 253, 'name': 'Community 254', 'followers': 20889, 'friends': 8778, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 254, 'name': 'Community 255', 'followers': 130, 'friends': 333, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 255, 'name': 'Community 256', 'followers': 663, 'friends': 604, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 256, 'name': 'Community 257', 'followers': 276, 'friends': 339, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 257, 'name': 'Community 258', 'followers': 1007, 'friends': 1646, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 258, 'name': 'Community 259', 'followers': 14377, 'friends': 395, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 259, 'name': 'Community 260', 'followers': 331, 'friends': 265, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 260, 'name': 'Community 261', 'followers': 1051, 'friends': 484, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 261, 'name': 'Community 262', 'followers': 35605, 'friends': 157, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 262, 'name': 'Community 263', 'followers': 124, 'friends': 112, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 263, 'name': 'Community 264', 'followers': 141, 'friends': 149, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 264, 'name': 'Community 265', 'followers': 161, 'friends': 127, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 265, 'name': 'Community 266', 'followers': 121, 'friends': 166, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 266, 'name': 'Community 267', 'followers': 1869, 'friends': 1262, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 267, 'name': 'Community 268', 'followers': 315, 'friends': 416, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 268, 'name': 'Community 269', 'followers': 3452, 'friends': 1570, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 269, 'name': 'Community 270', 'followers': 437, 'friends': 389, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 270, 'name': 'Community 271', 'followers': 2060, 'friends': 652, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 271, 'name': 'Community 272', 'followers': 490, 'friends': 149, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 272, 'name': 'Community 273', 'followers': 2809, 'friends': 719, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 273, 'name': 'Community 274', 'followers': 532, 'friends': 1209, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 274, 'name': 'Community 275', 'followers': 0, 'friends': 0, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 275, 'name': 'Community 276', 'followers': 885, 'friends': 2369, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 276, 'name': 'Community 277', 'followers': 0, 'friends': 0, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 277, 'name': 'Community 278', 'followers': 565, 'friends': 556, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 278, 'name': 'Community 279', 'followers': 886, 'friends': 1236, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 279, 'name': 'Community 280', 'followers': 862, 'friends': 628, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 280, 'name': 'Community 281', 'followers': 231, 'friends': 485, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 281, 'name': 'Community 282', 'followers': 4, 'friends': 7, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 282, 'name': 'Community 283', 'followers': 131, 'friends': 512, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 283, 'name': 'Community 284', 'followers': 1151, 'friends': 897, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 284, 'name': 'Community 285', 'followers': 389, 'friends': 169, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 285, 'name': 'Community 286', 'followers': 270, 'friends': 215, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 286, 'name': 'Community 287', 'followers': 2311, 'friends': 621, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 287, 'name': 'Community 288', 'followers': 198, 'friends': 469, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 288, 'name': 'Community 289', 'followers': 6312, 'friends': 6295, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 289, 'name': 'Community 290', 'followers': 378, 'friends': 300, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 290, 'name': 'Community 291', 'followers': 359, 'friends': 449, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 291, 'name': 'Community 292', 'followers': 428, 'friends': 721, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 292, 'name': 'Community 293', 'followers': 636, 'friends': 463, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 293, 'name': 'Community 294', 'followers': 1246, 'friends': 305, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 294, 'name': 'Community 295', 'followers': 5529, 'friends': 452, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 295, 'name': 'Community 296', 'followers': 1163, 'friends': 594, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 296, 'name': 'Community 297', 'followers': 140, 'friends': 770, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 297, 'name': 'Community 298', 'followers': 784, 'friends': 220, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 298, 'name': 'Community 299', 'followers': 1498, 'friends': 840, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 299, 'name': 'Community 300', 'followers': 751, 'friends': 566, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 300, 'name': 'Community 301', 'followers': 410, 'friends': 388, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 301, 'name': 'Community 302', 'followers': 326, 'friends': 251, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 302, 'name': 'Community 303', 'followers': 136, 'friends': 303, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 303, 'name': 'Community 304', 'followers': 488, 'friends': 969, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 304, 'name': 'Community 305', 'followers': 145, 'friends': 274, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 305, 'name': 'Community 306', 'followers': 169, 'friends': 303, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 306, 'name': 'Community 307', 'followers': 2025, 'friends': 303, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 307, 'name': 'Community 308', 'followers': 9056, 'friends': 914, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 308, 'name': 'Community 309', 'followers': 13356, 'friends': 2271, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 309, 'name': 'Community 310', 'followers': 374, 'friends': 889, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 310, 'name': 'Community 311', 'followers': 111, 'friends': 821, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 311, 'name': 'Community 312', 'followers': 800, 'friends': 145, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 312, 'name': 'Community 313', 'followers': 98744, 'friends': 5537, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 313, 'name': 'Community 314', 'followers': 1623, 'friends': 1040, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 314, 'name': 'Community 315', 'followers': 312, 'friends': 269, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 315, 'name': 'Community 316', 'followers': 122, 'friends': 65, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 316, 'name': 'Community 317', 'followers': 514, 'friends': 1046, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 317, 'name': 'Community 318', 'followers': 290, 'friends': 212, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 318, 'name': 'Community 319', 'followers': 537, 'friends': 391, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 319, 'name': 'Community 320', 'followers': 435, 'friends': 374, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 320, 'name': 'Community 321', 'followers': 1773, 'friends': 941, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 321, 'name': 'Community 322', 'followers': 96, 'friends': 361, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 322, 'name': 'Community 323', 'followers': 433, 'friends': 450, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 323, 'name': 'Community 324', 'followers': 184, 'friends': 179, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 324, 'name': 'Community 325', 'followers': 803, 'friends': 437, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 325, 'name': 'Community 326', 'followers': 831, 'friends': 742, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 326, 'name': 'Community 327', 'followers': 256, 'friends': 336, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 327, 'name': 'Community 328', 'followers': 106, 'friends': 251, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 328, 'name': 'Community 329', 'followers': 0, 'friends': 0, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 329, 'name': 'Community 330', 'followers': 1612, 'friends': 958, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 330, 'name': 'Community 331', 'followers': 569, 'friends': 202, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 331, 'name': 'Community 332', 'followers': 7646, 'friends': 4722, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 332, 'name': 'Community 333', 'followers': 492, 'friends': 477, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 333, 'name': 'Community 334', 'followers': 9174, 'friends': 897, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 334, 'name': 'Community 335', 'followers': 136, 'friends': 195, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 335, 'name': 'Community 336', 'followers': 408, 'friends': 216, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 336, 'name': 'Community 337', 'followers': 207, 'friends': 368, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 337, 'name': 'Community 338', 'followers': 541, 'friends': 347, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 338, 'name': 'Community 339', 'followers': 129, 'friends': 186, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 339, 'name': 'Community 340', 'followers': 790, 'friends': 569, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 340, 'name': 'Community 341', 'followers': 1153, 'friends': 958, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 341, 'name': 'Community 342', 'followers': 16095, 'friends': 1425, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 342, 'name': 'Community 343', 'followers': 1360, 'friends': 1441, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 343, 'name': 'Community 344', 'followers': 440, 'friends': 399, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 344, 'name': 'Community 345', 'followers': 862, 'friends': 5006, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 345, 'name': 'Community 346', 'followers': 665, 'friends': 704, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 346, 'name': 'Community 347', 'followers': 243, 'friends': 295, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 347, 'name': 'Community 348', 'followers': 18, 'friends': 30, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 348, 'name': 'Community 349', 'followers': 5221, 'friends': 4142, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 349, 'name': 'Community 350', 'followers': 137, 'friends': 275, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 350, 'name': 'Community 351', 'followers': 314, 'friends': 269, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 351, 'name': 'Community 352', 'followers': 1505, 'friends': 1050, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 352, 'name': 'Community 353', 'followers': 38835, 'friends': 453, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 353, 'name': 'Community 354', 'followers': 205, 'friends': 336, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 354, 'name': 'Community 355', 'followers': 2021, 'friends': 1901, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 355, 'name': 'Community 356', 'followers': 261, 'friends': 80, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 356, 'name': 'Community 357', 'followers': 3539, 'friends': 926, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 357, 'name': 'Community 358', 'followers': 1210, 'friends': 919, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 358, 'name': 'Community 359', 'followers': 301, 'friends': 882, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 359, 'name': 'Community 360', 'followers': 256, 'friends': 214, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 360, 'name': 'Community 361', 'followers': 79, 'friends': 223, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 361, 'name': 'Community 362', 'followers': 0, 'friends': 0, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 362, 'name': 'Community 363', 'followers': 196, 'friends': 346, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 363, 'name': 'Community 364', 'followers': 31920, 'friends': 611, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 364, 'name': 'Community 365', 'followers': 231, 'friends': 215, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 365, 'name': 'Community 366', 'followers': 300, 'friends': 834, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 366, 'name': 'Community 367', 'followers': 2135, 'friends': 618, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 367, 'name': 'Community 368', 'followers': 390, 'friends': 433, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 368, 'name': 'Community 369', 'followers': 12, 'friends': 261, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 369, 'name': 'Community 370', 'followers': 823, 'friends': 471, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 370, 'name': 'Community 371', 'followers': 631, 'friends': 317, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 371, 'name': 'Community 372', 'followers': 26, 'friends': 125, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 372, 'name': 'Community 373', 'followers': 580, 'friends': 483, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 373, 'name': 'Community 374', 'followers': 77, 'friends': 446, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 374, 'name': 'Community 375', 'followers': 16, 'friends': 305, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 375, 'name': 'Community 376', 'followers': 4343, 'friends': 4714, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 376, 'name': 'Community 377', 'followers': 20, 'friends': 119, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 377, 'name': 'Community 378', 'followers': 1381, 'friends': 2844, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 378, 'name': 'Community 379', 'followers': 163, 'friends': 157, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 379, 'name': 'Community 380', 'followers': 401, 'friends': 267, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 380, 'name': 'Community 381', 'followers': 4744, 'friends': 4782, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 381, 'name': 'Community 382', 'followers': 51, 'friends': 197, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 382, 'name': 'Community 383', 'followers': 651, 'friends': 545, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 383, 'name': 'Community 384', 'followers': 14, 'friends': 27, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 384, 'name': 'Community 385', 'followers': 444, 'friends': 884, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 385, 'name': 'Community 386', 'followers': 38878, 'friends': 977, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 386, 'name': 'Community 387', 'followers': 520201, 'friends': 318, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 387, 'name': 'Community 388', 'followers': 375, 'friends': 872, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 388, 'name': 'Community 389', 'followers': 875, 'friends': 1083, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 389, 'name': 'Community 390', 'followers': 145, 'friends': 258, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 390, 'name': 'Community 391', 'followers': 214, 'friends': 245, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 391, 'name': 'Community 392', 'followers': 2, 'friends': 38, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 392, 'name': 'Community 393', 'followers': 2109, 'friends': 2099, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 393, 'name': 'Community 394', 'followers': 111, 'friends': 258, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 394, 'name': 'Community 395', 'followers': 1, 'friends': 21, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 395, 'name': 'Community 396', 'followers': 319, 'friends': 87, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 396, 'name': 'Community 397', 'followers': 5734, 'friends': 3366, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 397, 'name': 'Community 398', 'followers': 3877, 'friends': 4210, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 398, 'name': 'Community 399', 'followers': 9070, 'friends': 9938, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 399, 'name': 'Community 400', 'followers': 30, 'friends': 147, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 400, 'name': 'Community 401', 'followers': 209, 'friends': 160, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 401, 'name': 'Community 402', 'followers': 83, 'friends': 440, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 402, 'name': 'Community 403', 'followers': 2566, 'friends': 2352, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 403, 'name': 'Community 404', 'followers': 638, 'friends': 1501, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 404, 'name': 'Community 405', 'followers': 18, 'friends': 220, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 405, 'name': 'Community 406', 'followers': 2513, 'friends': 4061, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 406, 'name': 'Community 407', 'followers': 891, 'friends': 1511, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 407, 'name': 'Community 408', 'followers': 298986, 'friends': 36, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 408, 'name': 'Community 409', 'followers': 817, 'friends': 731, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 409, 'name': 'Community 410', 'followers': 1059, 'friends': 1863, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 410, 'name': 'Community 411', 'followers': 452, 'friends': 357, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 411, 'name': 'Community 412', 'followers': 317, 'friends': 404, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 412, 'name': 'Community 413', 'followers': 168, 'friends': 78, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 413, 'name': 'Community 414', 'followers': 4462, 'friends': 3362, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 414, 'name': 'Community 415', 'followers': 1420, 'friends': 1447, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 415, 'name': 'Community 416', 'followers': 1076, 'friends': 378, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 416, 'name': 'Community 417', 'followers': 0, 'friends': 0, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 417, 'name': 'Community 418', 'followers': 2946, 'friends': 3349, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 418, 'name': 'Community 419', 'followers': 428, 'friends': 181, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 419, 'name': 'Community 420', 'followers': 337, 'friends': 542, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 420, 'name': 'Community 421', 'followers': 732, 'friends': 1222, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 421, 'name': 'Community 422', 'followers': 344, 'friends': 234, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 422, 'name': 'Community 423', 'followers': 5437, 'friends': 723, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 423, 'name': 'Community 424', 'followers': 592, 'friends': 393, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 424, 'name': 'Community 425', 'followers': 6711, 'friends': 7349, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 425, 'name': 'Community 426', 'followers': 43, 'friends': 316, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 426, 'name': 'Community 427', 'followers': 1457, 'friends': 3908, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 427, 'name': 'Community 428', 'followers': 8, 'friends': 14, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 428, 'name': 'Community 429', 'followers': 167, 'friends': 310, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 429, 'name': 'Community 430', 'followers': 2295, 'friends': 1243, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 430, 'name': 'Community 431', 'followers': 43, 'friends': 55, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 431, 'name': 'Community 432', 'followers': 987, 'friends': 811, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 432, 'name': 'Community 433', 'followers': 409, 'friends': 290, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 433, 'name': 'Community 434', 'followers': 1133, 'friends': 514, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 434, 'name': 'Community 435', 'followers': 27076, 'friends': 299, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 435, 'name': 'Community 436', 'followers': 15, 'friends': 251, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 436, 'name': 'Community 437', 'followers': 490, 'friends': 272, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 437, 'name': 'Community 438', 'followers': 74, 'friends': 954, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 438, 'name': 'Community 439', 'followers': 29, 'friends': 70, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 439, 'name': 'Community 440', 'followers': 215, 'friends': 634, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 440, 'name': 'Community 441', 'followers': 0, 'friends': 0, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 441, 'name': 'Community 442', 'followers': 73, 'friends': 331, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 442, 'name': 'Community 443', 'followers': 27492, 'friends': 1922, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 443, 'name': 'Community 444', 'followers': 79, 'friends': 346, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 444, 'name': 'Community 445', 'followers': 2311, 'friends': 329, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 445, 'name': 'Community 446', 'followers': 523, 'friends': 521, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 446, 'name': 'Community 447', 'followers': 865, 'friends': 731, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 447, 'name': 'Community 448', 'followers': 80, 'friends': 296, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 448, 'name': 'Community 449', 'followers': 224, 'friends': 274, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 449, 'name': 'Community 450', 'followers': 8, 'friends': 52, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 450, 'name': 'Community 451', 'followers': 2776, 'friends': 3001, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 451, 'name': 'Community 452', 'followers': 515, 'friends': 196, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 452, 'name': 'Community 453', 'followers': 98, 'friends': 479, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 453, 'name': 'Community 454', 'followers': 258, 'friends': 101, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 454, 'name': 'Community 455', 'followers': 3102, 'friends': 3120, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 455, 'name': 'Community 456', 'followers': 1182, 'friends': 731, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 456, 'name': 'Community 457', 'followers': 60, 'friends': 147, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 457, 'name': 'Community 458', 'followers': 28690, 'friends': 248, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 458, 'name': 'Community 459', 'followers': 5638, 'friends': 462, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 459, 'name': 'Community 460', 'followers': 97, 'friends': 192, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 460, 'name': 'Community 461', 'followers': 122, 'friends': 268, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 461, 'name': 'Community 462', 'followers': 14413, 'friends': 472, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 462, 'name': 'Community 463', 'followers': 13278, 'friends': 2438, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 463, 'name': 'Community 464', 'followers': 653, 'friends': 1237, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 464, 'name': 'Community 465', 'followers': 101, 'friends': 202, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 465, 'name': 'Community 466', 'followers': 137, 'friends': 774, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 466, 'name': 'Community 467', 'followers': 137, 'friends': 260, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 467, 'name': 'Community 468', 'followers': 1031, 'friends': 233, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 468, 'name': 'Community 469', 'followers': 0, 'friends': 0, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 469, 'name': 'Community 470', 'followers': 701, 'friends': 604, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 470, 'name': 'Community 471', 'followers': 483, 'friends': 135, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 471, 'name': 'Community 472', 'followers': 2698, 'friends': 3529, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 472, 'name': 'Community 473', 'followers': 1087, 'friends': 1892, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 473, 'name': 'Community 474', 'followers': 402, 'friends': 702, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 474, 'name': 'Community 475', 'followers': 1002, 'friends': 712, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 475, 'name': 'Community 476', 'followers': 3337, 'friends': 544, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 476, 'name': 'Community 477', 'followers': 10810, 'friends': 1476, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 477, 'name': 'Community 478', 'followers': 498, 'friends': 688, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 478, 'name': 'Community 479', 'followers': 137741, 'friends': 658, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 479, 'name': 'Community 480', 'followers': 624, 'friends': 1846, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 480, 'name': 'Community 481', 'followers': 1246, 'friends': 561, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 481, 'name': 'Community 482', 'followers': 6158, 'friends': 22, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 482, 'name': 'Community 483', 'followers': 102, 'friends': 1514, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 483, 'name': 'Community 484', 'followers': 1187, 'friends': 340, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 484, 'name': 'Community 485', 'followers': 665, 'friends': 924, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 485, 'name': 'Community 486', 'followers': 61, 'friends': 183, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 486, 'name': 'Community 487', 'followers': 108, 'friends': 170, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 487, 'name': 'Community 488', 'followers': 7676, 'friends': 212, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 488, 'name': 'Community 489', 'followers': 500, 'friends': 430, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 489, 'name': 'Community 490', 'followers': 66647, 'friends': 1459, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 490, 'name': 'Community 491', 'followers': 359, 'friends': 278, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 491, 'name': 'Community 492', 'followers': 673, 'friends': 1015, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 492, 'name': 'Community 493', 'followers': 30, 'friends': 80, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 493, 'name': 'Community 494', 'followers': 59, 'friends': 173, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 494, 'name': 'Community 495', 'followers': 22, 'friends': 40, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 495, 'name': 'Community 496', 'followers': 3920, 'friends': 1737, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 496, 'name': 'Community 497', 'followers': 13163, 'friends': 9339, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 497, 'name': 'Community 498', 'followers': 872, 'friends': 1296, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 498, 'name': 'Community 499', 'followers': 45, 'friends': 129, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 499, 'name': 'Community 500', 'followers': 1691, 'friends': 535, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 500, 'name': 'Community 501', 'followers': 550, 'friends': 651, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 501, 'name': 'Community 502', 'followers': 63, 'friends': 611, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 502, 'name': 'Community 503', 'followers': 681, 'friends': 988, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 503, 'name': 'Community 504', 'followers': 263, 'friends': 141, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 504, 'name': 'Community 505', 'followers': 143, 'friends': 291, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 505, 'name': 'Community 506', 'followers': 151, 'friends': 170, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 506, 'name': 'Community 507', 'followers': 270, 'friends': 271, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 507, 'name': 'Community 508', 'followers': 37, 'friends': 620, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 508, 'name': 'Community 509', 'followers': 2201, 'friends': 2403, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 509, 'name': 'Community 510', 'followers': 1000, 'friends': 474, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 510, 'name': 'Community 511', 'followers': 1945, 'friends': 2639, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 511, 'name': 'Community 512', 'followers': 3936, 'friends': 4427, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 512, 'name': 'Community 513', 'followers': 876, 'friends': 885, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 513, 'name': 'Community 514', 'followers': 274, 'friends': 1250, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 514, 'name': 'Community 515', 'followers': 47, 'friends': 561, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 515, 'name': 'Community 516', 'followers': 263, 'friends': 251, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 516, 'name': 'Community 517', 'followers': 2454, 'friends': 1395, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 517, 'name': 'Community 518', 'followers': 277, 'friends': 236, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 518, 'name': 'Community 519', 'followers': 11820, 'friends': 503, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 519, 'name': 'Community 520', 'followers': 2791, 'friends': 2760, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 520, 'name': 'Community 521', 'followers': 2320, 'friends': 709, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 521, 'name': 'Community 522', 'followers': 435, 'friends': 350, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 522, 'name': 'Community 523', 'followers': 630, 'friends': 501, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 523, 'name': 'Community 524', 'followers': 58511, 'friends': 302, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 524, 'name': 'Community 525', 'followers': 427, 'friends': 412, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 525, 'name': 'Community 526', 'followers': 0, 'friends': 0, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 526, 'name': 'Community 527', 'followers': 10, 'friends': 73, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 527, 'name': 'Community 528', 'followers': 3911, 'friends': 2881, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 528, 'name': 'Community 529', 'followers': 8225, 'friends': 180, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 529, 'name': 'Community 530', 'followers': 310, 'friends': 479, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 530, 'name': 'Community 531', 'followers': 49, 'friends': 49, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 531, 'name': 'Community 532', 'followers': 152, 'friends': 798, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 532, 'name': 'Community 533', 'followers': 177, 'friends': 467, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 533, 'name': 'Community 534', 'followers': 0, 'friends': 0, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 534, 'name': 'Community 535', 'followers': 2474, 'friends': 681, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 535, 'name': 'Community 536', 'followers': 174, 'friends': 151, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 536, 'name': 'Community 537', 'followers': 329, 'friends': 384, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 537, 'name': 'Community 538', 'followers': 260, 'friends': 184, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 538, 'name': 'Community 539', 'followers': 0, 'friends': 0, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 539, 'name': 'Community 540', 'followers': 2113, 'friends': 1657, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 540, 'name': 'Community 541', 'followers': 2846, 'friends': 2691, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 541, 'name': 'Community 542', 'followers': 10, 'friends': 19, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 542, 'name': 'Community 543', 'followers': 64, 'friends': 264, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 543, 'name': 'Community 544', 'followers': 2444, 'friends': 1032, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 544, 'name': 'Community 545', 'followers': 513, 'friends': 526, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 545, 'name': 'Community 546', 'followers': 472, 'friends': 214, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 546, 'name': 'Community 547', 'followers': 305, 'friends': 229, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 547, 'name': 'Community 548', 'followers': 349, 'friends': 851, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 548, 'name': 'Community 549', 'followers': 285, 'friends': 782, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 549, 'name': 'Community 550', 'followers': 129, 'friends': 176, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 550, 'name': 'Community 551', 'followers': 1277, 'friends': 3034, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 551, 'name': 'Community 552', 'followers': 7022, 'friends': 216, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 552, 'name': 'Community 553', 'followers': 15, 'friends': 153, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 553, 'name': 'Community 554', 'followers': 1429, 'friends': 236, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 554, 'name': 'Community 555', 'followers': 2781, 'friends': 2339, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 555, 'name': 'Community 556', 'followers': 1686, 'friends': 427, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 556, 'name': 'Community 557', 'followers': 278, 'friends': 528, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 557, 'name': 'Community 558', 'followers': 273, 'friends': 288, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 558, 'name': 'Community 559', 'followers': 387, 'friends': 192, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 559, 'name': 'Community 560', 'followers': 365, 'friends': 380, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 560, 'name': 'Community 561', 'followers': 117, 'friends': 249, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 561, 'name': 'Community 562', 'followers': 9402, 'friends': 4090, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 562, 'name': 'Community 563', 'followers': 557, 'friends': 412, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 563, 'name': 'Community 564', 'followers': 1187, 'friends': 2574, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 564, 'name': 'Community 565', 'followers': 315, 'friends': 864, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 565, 'name': 'Community 566', 'followers': 1261, 'friends': 866, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 566, 'name': 'Community 567', 'followers': 579, 'friends': 172, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 567, 'name': 'Community 568', 'followers': 713, 'friends': 376, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 568, 'name': 'Community 569', 'followers': 734, 'friends': 360, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 569, 'name': 'Community 570', 'followers': 1749, 'friends': 2330, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 570, 'name': 'Community 571', 'followers': 381, 'friends': 296, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 571, 'name': 'Community 572', 'followers': 869, 'friends': 1095, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 572, 'name': 'Community 573', 'followers': 783, 'friends': 336, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 573, 'name': 'Community 574', 'followers': 2457, 'friends': 3173, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 574, 'name': 'Community 575', 'followers': 275, 'friends': 1175, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 575, 'name': 'Community 576', 'followers': 37896, 'friends': 2488, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 576, 'name': 'Community 577', 'followers': 153, 'friends': 392, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 577, 'name': 'Community 578', 'followers': 3018, 'friends': 475, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 578, 'name': 'Community 579', 'followers': 983, 'friends': 787, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 579, 'name': 'Community 580', 'followers': 242, 'friends': 300, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 580, 'name': 'Community 581', 'followers': 237, 'friends': 288, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 581, 'name': 'Community 582', 'followers': 385, 'friends': 354, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 582, 'name': 'Community 583', 'followers': 142, 'friends': 134, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 583, 'name': 'Community 584', 'followers': 199, 'friends': 368, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 584, 'name': 'Community 585', 'followers': 353, 'friends': 277, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 585, 'name': 'Community 586', 'followers': 899, 'friends': 772, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 586, 'name': 'Community 587', 'followers': 317214, 'friends': 250, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 587, 'name': 'Community 588', 'followers': 865, 'friends': 425, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 588, 'name': 'Community 589', 'followers': 934, 'friends': 1636, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 589, 'name': 'Community 590', 'followers': 150, 'friends': 154, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 590, 'name': 'Community 591', 'followers': 4, 'friends': 2, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 591, 'name': 'Community 592', 'followers': 631, 'friends': 741, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 592, 'name': 'Community 593', 'followers': 1546, 'friends': 621, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 593, 'name': 'Community 594', 'followers': 370, 'friends': 263, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 594, 'name': 'Community 595', 'followers': 267, 'friends': 269, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 595, 'name': 'Community 596', 'followers': 454, 'friends': 744, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 596, 'name': 'Community 597', 'followers': 484, 'friends': 468, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 597, 'name': 'Community 598', 'followers': 14, 'friends': 72, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 598, 'name': 'Community 599', 'followers': 239, 'friends': 172, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 599, 'name': 'Community 600', 'followers': 191, 'friends': 983, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 600, 'name': 'Community 601', 'followers': 103, 'friends': 5, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 601, 'name': 'Community 602', 'followers': 0, 'friends': 0, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 602, 'name': 'Community 603', 'followers': 296, 'friends': 194, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 603, 'name': 'Community 604', 'followers': 270, 'friends': 343, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 604, 'name': 'Community 605', 'followers': 124, 'friends': 244, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 605, 'name': 'Community 606', 'followers': 290, 'friends': 209, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 606, 'name': 'Community 607', 'followers': 9986, 'friends': 10084, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 607, 'name': 'Community 608', 'followers': 40, 'friends': 93, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 608, 'name': 'Community 609', 'followers': 284, 'friends': 227, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 609, 'name': 'Community 610', 'followers': 84, 'friends': 376, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 610, 'name': 'Community 611', 'followers': 456, 'friends': 667, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 611, 'name': 'Community 612', 'followers': 835, 'friends': 573, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 612, 'name': 'Community 613', 'followers': 337, 'friends': 158, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 613, 'name': 'Community 614', 'followers': 2429, 'friends': 469, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 614, 'name': 'Community 615', 'followers': 446, 'friends': 107, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 615, 'name': 'Community 616', 'followers': 1124, 'friends': 941, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 616, 'name': 'Community 617', 'followers': 636, 'friends': 783, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 617, 'name': 'Community 618', 'followers': 1406, 'friends': 1734, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 618, 'name': 'Community 619', 'followers': 334, 'friends': 320, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 619, 'name': 'Community 620', 'followers': 1366, 'friends': 373, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 620, 'name': 'Community 621', 'followers': 52, 'friends': 102, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 621, 'name': 'Community 622', 'followers': 299, 'friends': 450, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 622, 'name': 'Community 623', 'followers': 5, 'friends': 19, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 623, 'name': 'Community 624', 'followers': 472, 'friends': 277, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 624, 'name': 'Community 625', 'followers': 1829, 'friends': 1982, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 625, 'name': 'Community 626', 'followers': 136, 'friends': 771, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 626, 'name': 'Community 627', 'followers': 181, 'friends': 453, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 627, 'name': 'Community 628', 'followers': 188, 'friends': 219, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 628, 'name': 'Community 629', 'followers': 719, 'friends': 629, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 629, 'name': 'Community 630', 'followers': 75, 'friends': 105, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 630, 'name': 'Community 631', 'followers': 672, 'friends': 680, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 631, 'name': 'Community 632', 'followers': 451, 'friends': 48, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 632, 'name': 'Community 633', 'followers': 539, 'friends': 804, 'N': 1, 'in_degree': 0, 'out_degree': 0}, {'id': 633, 'name': 'Community 634', 'followers': 12998, 'friends': 7341, 'N': 1, 'in_degree': 0, 'out_degree': 0}], 'links': [{'source': 0, 'target': 2, 'weight': 1}, {'source': 1, 'target': 2, 'weight': 1}, {'source': 1, 'target': 3, 'weight': 1}, {'source': 1, 'target': 5, 'weight': 2}, {'source': 1, 'target': 7, 'weight': 1}, {'source': 1, 'target': 10, 'weight': 2}, {'source': 1, 'target': 65, 'weight': 1}, {'source': 2, 'target': 1, 'weight': 7}, {'source': 2, 'target': 4, 'weight': 2}, {'source': 2, 'target': 10, 'weight': 1}, {'source': 4, 'target': 0, 'weight': 1}, {'source': 4, 'target': 1, 'weight': 4}, {'source': 4, 'target': 7, 'weight': 1}, {'source': 5, 'target': 3, 'weight': 1}, {'source': 6, 'target': 5, 'weight': 1}, {'source': 7, 'target': 4, 'weight': 1}], 'graph': {'type': 'Retweet network <br> Louvain graph', 'keyword': '', 'collected_on': 'pt_2019_2.', 'first_tweet': '2019-02-22 12:01', 'last_tweet': '2019-02-22 12:01', 'N_nodes': 634, 'N_links': 16}}
+    </script>
+    
+<script>
+
+var colorselector = document.getElementById("nodecolor");
+var nodescaling = 0.05;
+var nodecolor = colorselector.options[colorselector.selectedIndex].value;
+
+const elem = document.getElementById('graph');
+const Graph = ForceGraph()(elem)
+.graphData({nodes: data.nodes, links: data.links})
+.linkCurvature(0.2)
+.nodeLabel(node => node.name)
+.nodeColor(node => "black")
+.nodeVal(node => node.N * nodescaling)
+.linkDirectionalParticles(true)
+.linkDirectionalParticleWidth(link => link.weight)
+.linkDirectionalParticleColor(() => '#a5c8d1')
+.linkHoverPrecision(10)
+.onNodeRightClick(node => { Graph.centerAt(node.x, node.y, 1000);Graph.zoom(8, 2000);})
+
+// Get the list of all users for autocomplete
+var users = []
+for(var i in data.nodes)
+{users.push(data.nodes[i].name)};
+
+
+// USER INFO ON CLICK
+Graph.onNodeClick((node =>  {
+userinfostring = `<ul> 
+<li> Number of nodes: ${node.N}
+<li> Cum. Followers: ${node.followers}
+<li> Cum. Followed accounts: ${node.friends}
+<li> Times users retweeted: ${node.out_degree}
+<li> Times users got retweeted: ${node.in_degree}
+</ul>`
+document.getElementById('userinfostring').innerHTML = userinfostring
+$("#content03").slideDown(300)}))
+
+var input = document.getElementById("searchuser");
+new Awesomplete(input, {
+list: users
+});
+
+// ZOOM ON USER
+function zoomonuser(){
+var name = document.getElementById("searchuser").value;
+const getNode = id => {
+return data.nodes.find(node => node.name === name);
+}
+var nodeathand = getNode(name)
+Graph.centerAt(nodeathand.x, nodeathand.y, 1000);Graph.zoom(8, 2000);
+console.log(nodeathand);}
+
+// FLASH COLOR
+function flashcolor(){
+var bodyelement = document.querySelector('body')
+var bodystyle = window.getComputedStyle(bodyelement)
+var bg = bodystyle.getPropertyValue('color')
+if (bg === 'rgb(0, 0, 0)') {var nodecol = 'black'}
+if (bg === 'rgb(255, 255, 255)') {var nodecol = 'white'}
+var name = document.getElementById("searchuser").value;
+const getNode = id => {
+return data.nodes.find(node => node.name === name);
+};
+var nodeathand = getNode(name)
+console.log(nodeathand)
+originalcolor = nodeathand.color
+Graph.nodeColor(node => {
+if (node.name === name) {
+return "red";
+}
+else {return nodecol}
+});
+setTimeout(function(){            
+Graph.nodeColor(node => {
+if (node.name === name) {
+return nodecol;
+}
+else {return nodecol}
+});
+}, 250);}
+
+function resetzoom(){
+Graph.centerAt(0, 0,1000);Graph.zoom(0.4, 1000)
+}
+
+// LIGHT / DARK MODE
+var checkbox = document.querySelector('input[name=mode]');      
+checkbox.addEventListener('change', function() {
+if(this.checked) {
+trans()
+document.documentElement.setAttribute('data-theme', 'darktheme');
+Graph.linkColor(() => 'rgba(255,255,255,0.2)');
+var colorselector = document.getElementById("nodecolor");
+var selectedoption = colorselector.options[colorselector.selectedIndex].value               
+if (selectedoption === "none") {Graph.nodeColor(() => 'white')}
+} 
+else {
+trans()
+document.documentElement.setAttribute('data-theme', 'lighttheme');
+Graph.linkColor(() => 'rgba(0,0,0,0.2)');
+var colorselector = document.getElementById("nodecolor");
+var selectedoption = colorselector.options[colorselector.selectedIndex].value                               
+if (selectedoption === "none") {Graph.nodeColor(() => 'black')}
+}
+})
+let trans = () => {
+document.documentElement.classList.add('transition');
+window.setTimeout(() => {
+document.documentElement.classList.remove('transition');
+}, 1000)
+}
+
+// RECOLOR NODES
+var colorscale = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000']
+document.getElementById("nodecolor").addEventListener("change", recolornodes);
+function recolornodes(){
+var colorselector = document.getElementById("nodecolor");
+var selectedoption = colorselector.options[colorselector.selectedIndex].value
+if (selectedoption != "none"){
+Graph.nodeColor(node => colorscale[node[selectedoption]])}            
+else { 
+var bodyelement = document.querySelector('body')
+var bodystyle = window.getComputedStyle(bodyelement)
+var bg = bodystyle.getPropertyValue('color')
+if (bg === 'rgb(0, 0, 0)') {var nodecol = 'black'}
+if (bg === 'rgb(255, 255, 255)') {var nodecol = 'white'}
+Graph.nodeColor(node => nodecol)} }
+
+// NODE SIZE
+document.getElementById("slido").addEventListener("change", rescalenodes);
+function rescalenodes(){
+  var nodescaleslider = document.getElementById("slido");
+  var newscale = nodescaleslider.value  
+  var sizeselector = document.getElementById("nodesize");
+  var selectedoption = sizeselector.options[sizeselector.selectedIndex].value
+  if      (selectedoption === "followers"){Graph.nodeVal(node => node[selectedoption] * 0.00005 * newscale)}
+  else if (selectedoption === "N"){Graph.nodeVal(node => node[selectedoption] * 0.01 * newscale)}     
+  else if (selectedoption === "friends"){Graph.nodeVal(node => node[selectedoption] * 0.0001 * newscale)}
+  else if (selectedoption === "out_degree"){Graph.nodeVal(node => node[selectedoption] * 0.1 * newscale)}
+  else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * 0.05 * newscale)}              
+}
+
+// LINK PARTICLE SIZE
+document.getElementById("slido_links").addEventListener("change", rescalelinkparticles);
+function rescalelinkparticles(){
+  var linkscaleslider = document.getElementById("slido_links");
+  var newscale = linkscaleslider.value  
+  Graph.linkDirectionalParticleWidth(link => link.weight * newscale)}
+
+document.getElementById("nodesize").addEventListener("change", changenodesize);
+function changenodesize(){
+var sizeselector = document.getElementById("nodesize");
+var selectedoption = sizeselector.options[sizeselector.selectedIndex].value
+if      (selectedoption === "followers"){Graph.nodeVal(node => node[selectedoption] * 0.00005)}   
+else if (selectedoption === "N"){Graph.nodeVal(node => node[selectedoption] * 0.01)}         
+else if (selectedoption === "friends"){Graph.nodeVal(node => node[selectedoption] * 0.0001)}
+else if (selectedoption === "out_degree"){Graph.nodeVal(node => node[selectedoption] * 1.0)}
+else if (selectedoption === "in_degree"){Graph.nodeVal(node => node[selectedoption] * 0.05)}              
+else { Graph.nodeVal(node => 1.0)} 
+}
+
+// NODE INFO ON HOVER
+function pastenodeinfo(node){
+userinfostring = `<ul> 
+<li> Number of nodes: ${node.N}
+<li> Cum. Followers: ${node.followers}
+<li> Cum. Followed accounts: ${node.friends}
+<li> Times the user retweeted: ${node.out_degree}
+<li> Times the user got retweeted: ${node.in_degree}
+</ul>`
+document.getElementById('userinfostring').innerHTML = userinfostring
+document.getElementById("searchuser").value = node.name
+if ($('#usertweets').is(':visible')){drawtweets()}
+if ($('#twitter_timeline').is(':visible')){drawtimeline()} 
+}
+Graph.onNodeHover(node => node && pastenodeinfo(node))
+
+$(function() {
+var colval="none"; 
+$("#nodecolor").val(colval);
+});
+$(function() {
+var sizeval="N"; 
+$("#nodesize").val(sizeval);
+});
+
+// INCLUDE NETWORK INFORMATION FROM GRAPH DATA
+var netinfo = `<ul> 
+<li> Keyword: ${data.graph.keyword}</li>
+<li> Collected on: ${data.graph.collected_on}</li>
+<li> First retweet: ${data.graph.first_tweet}</li>
+<li> Last retweet: ${data.graph.last_tweet}</li>
+</ul>`
+var netmeasures = `
+<ul>
+  <li>Nodes: ${data.graph.N_nodes}</li>
+  <li>Links: ${data.graph.N_links}</li>
+</ul>`
+document.getElementById('panel00').innerHTML = data.graph.type
+document.getElementById('content00').innerHTML = netinfo
+document.getElementById('content02').innerHTML = netmeasures
+
+
+</script>
+
+</body>
